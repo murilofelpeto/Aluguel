@@ -9,26 +9,26 @@ services:
       dockerfile: containers/DB/Dockerfile
     environment:
       TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: murilofelpeto
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: Murilo!8
+      MYSQL_USER: murilofelpeto
+      MYSQL_ROOT_PASSWORD: Murilo!8
+      MYSQL_PASSWORD: Murilo18
       MYSQL_DATABASE: aluguel
     ports:
       - "3306:3306"
     networks:
       - aluguel-network
-  rest-with-spring-boot-udemy:
+  aluguel-api:
     image: murilofelpeto/aluguel-api
     restart: always
     build: 
-      context: .
-      dockerfile: containers/App/Dockerfile
-    working_dir: /aluguel/api
+      context: ./aluguel
+      dockerfile: ../containers/App/Dockerfile
+    working_dir: /aluguel
     environment:
       TZ: America/Sao_Paulo
       SPRING_BOOT_ENVIRONMENT: Production
     volumes:
-      - ./:/aluguel/api
+      - ./aluguel:/aluguel
       - ~/.m2:/root/.m2
     ports:
       - "8080:8080"
