@@ -1,14 +1,17 @@
 package br.com.murilo.aluguel.data.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -37,6 +40,17 @@ public class Proprietario implements Serializable {
 	
 	@Column(name = "nacionalidade", nullable = false, length = 80)
 	private String nacionalidade;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "proprietario")
+	private Set<Casa> casa;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
@@ -78,12 +92,22 @@ public class Proprietario implements Serializable {
 		this.nacionalidade = nacionalidade;
 	}
 
+	public Set<Casa> getCasa() {
+		return casa;
+	}
+
+	public void setCasa(Set<Casa> casa) {
+		this.casa = casa;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((casa == null) ? 0 : casa.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((estadoCivil == null) ? 0 : estadoCivil.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
@@ -99,12 +123,22 @@ public class Proprietario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Proprietario other = (Proprietario) obj;
+		if (casa == null) {
+			if (other.casa != null)
+				return false;
+		} else if (!casa.equals(other.casa))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
 		} else if (!cpf.equals(other.cpf))
 			return false;
 		if (estadoCivil != other.estadoCivil)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (nacionalidade == null) {
 			if (other.nacionalidade != null)
