@@ -37,7 +37,7 @@ public class Aluguel implements Serializable {
 	@Column(name = "observacoes", nullable = true)
 	private String observacoes;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_casa", nullable = true)
 	private Casa casa;
 

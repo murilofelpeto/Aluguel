@@ -48,15 +48,15 @@ public class Casa implements Serializable {
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_proprietario", nullable = false)
 	private Proprietario proprietario;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "casa")
+	@OneToMany(mappedBy = "casa")
 	private Set<Aluguel> alugueis;
 
 	public Casa() {
