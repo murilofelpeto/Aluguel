@@ -1,52 +1,38 @@
-package br.com.murilo.aluguel.data.model;
+package br.com.murilo.aluguel.data.vo;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.hateoas.ResourceSupport;
 
-@Entity
-@Table(name = "proprietario")
-public class Proprietario implements Serializable {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
+import br.com.murilo.aluguel.data.model.EstadoCivil;
+
+@JsonPropertyOrder({"id", "nome", "rg", "cpf", "estadoCivil", "nacionalidade"})
+public class ProprietarioVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-
-	@Column(name = "name", nullable = false, length = 180)
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	private String nome;
-
-	@Column(name = "rg", nullable = false, columnDefinition = "bigint(14)")
 	private Long rg;
-
-	@Column(name = "cpf", unique = true, nullable = false, columnDefinition = "bigint(11)")
 	private Long cpf;
-
-	@Column(name = "estado_civil", nullable = false)
-	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
-
-	@Column(name = "nacionalidade", nullable = false, length = 80)
 	private String nacionalidade;
 
-	public Proprietario() {
+	public ProprietarioVO() {
 	}
 
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getNome() {
@@ -92,10 +78,10 @@ public class Proprietario implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((estadoCivil == null) ? 0 : estadoCivil.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
@@ -106,11 +92,11 @@ public class Proprietario implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Proprietario other = (Proprietario) obj;
+		ProprietarioVO other = (ProprietarioVO) obj;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -118,10 +104,10 @@ public class Proprietario implements Serializable {
 			return false;
 		if (estadoCivil != other.estadoCivil)
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!key.equals(other.key))
 			return false;
 		if (nacionalidade == null) {
 			if (other.nacionalidade != null)

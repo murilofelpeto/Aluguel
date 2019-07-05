@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.murilo.aluguel.converter.DozerConverter;
 import br.com.murilo.aluguel.data.model.Proprietario;
+import br.com.murilo.aluguel.data.vo.ProprietarioVO;
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
 import br.com.murilo.aluguel.repository.ProprietarioRepository;
 
@@ -17,15 +19,17 @@ public class ProprietarioService {
 	
 	private final String MESSAGE = "Proprietario não encontrado!";
 	
-	public Proprietario findById(Long id) {
-		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
+	public ProprietarioVO findById(Long id) {
+		Proprietario proprietario = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
+		return DozerConverter.parseObject(proprietario, ProprietarioVO.class);
 	}
 	
-	public List<Proprietario> findAll(){
-		return repository.findAll();
+	public List<ProprietarioVO> findAll(){
+		return DozerConverter.parseListObjects(repository.findAll(), ProprietarioVO.class);
 	}
 	
-	public Proprietario create(Proprietario proprietario) {
-		return repository.save(proprietario);
+	public ProprietarioVO create(ProprietarioVO vo) {
+		Proprietario proprietario = DozerConverter.parseObject(vo, Proprietario.class);
+		return DozerConverter.parseObject(repository.save(proprietario), ProprietarioVO.class);
 	}
 }

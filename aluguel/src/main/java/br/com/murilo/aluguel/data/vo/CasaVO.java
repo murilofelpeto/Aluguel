@@ -1,77 +1,46 @@
-package br.com.murilo.aluguel.data.model;
+package br.com.murilo.aluguel.data.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.hateoas.ResourceSupport;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
 
-@Entity
-@Table(name = "casa")
-public class Casa implements Serializable {
+import br.com.murilo.aluguel.data.model.Aluguel;
+import br.com.murilo.aluguel.data.model.Endereco;
+import br.com.murilo.aluguel.data.model.Inquilino;
+import br.com.murilo.aluguel.data.model.Proprietario;
+
+@JsonPropertyOrder({"id", "tipoCasa", "valorAluguel", "valorIPTU", "dataVencimento", "endereco", "inquilino", "alugueis"})
+public class CasaVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-
-	@Column(name = "tipo_casa", nullable = false, length = 80)
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	private String tipoCasa;
-
-	@Column(name = "valor_aluguel", nullable = false)
 	private BigDecimal valorAluguel;
-
-	@Column(name = "valor_iptu", nullable = false)
 	private BigDecimal valorIPTU;
-
-	@Column(name = "data_vencimento", nullable = false)
-	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
-
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "id_proprietario", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
 	private Proprietario proprietario;
-
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
-
-	@OneToMany(mappedBy = "casa")
 	private Set<Aluguel> alugueis;
 
-	public Casa() {
+	public Long getKey() {
+		return key;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getTipoCasa() {
@@ -141,12 +110,12 @@ public class Casa implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((alugueis == null) ? 0 : alugueis.hashCode());
 		result = prime * result + ((dataVencimento == null) ? 0 : dataVencimento.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((inquilino == null) ? 0 : inquilino.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
 		result = prime * result + ((tipoCasa == null) ? 0 : tipoCasa.hashCode());
 		result = prime * result + ((valorAluguel == null) ? 0 : valorAluguel.hashCode());
@@ -158,11 +127,11 @@ public class Casa implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Casa other = (Casa) obj;
+		CasaVO other = (CasaVO) obj;
 		if (alugueis == null) {
 			if (other.alugueis != null)
 				return false;
@@ -178,15 +147,15 @@ public class Casa implements Serializable {
 				return false;
 		} else if (!endereco.equals(other.endereco))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (inquilino == null) {
 			if (other.inquilino != null)
 				return false;
 		} else if (!inquilino.equals(other.inquilino))
+			return false;
+		if (key == null) {
+			if (other.key != null)
+				return false;
+		} else if (!key.equals(other.key))
 			return false;
 		if (proprietario == null) {
 			if (other.proprietario != null)

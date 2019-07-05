@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.murilo.aluguel.data.model.Proprietario;
+import br.com.murilo.aluguel.data.vo.ProprietarioVO;
 import br.com.murilo.aluguel.service.ProprietarioService;
 
 @RestController
@@ -23,19 +23,19 @@ public class ProprietarioController {
 	private ProprietarioService service;
 
 	@GetMapping
-	public ResponseEntity<List<Proprietario>> findAll() {
-		List<Proprietario> proprietarios = service.findAll();
+	public ResponseEntity<List<ProprietarioVO>> findAll() {
+		List<ProprietarioVO> proprietarios = service.findAll();
 		return (proprietarios.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
 				: new ResponseEntity<>(proprietarios, HttpStatus.OK));
 	}
 	
 	@GetMapping(value = "/{id}")
-	public Proprietario findById(@PathVariable("id")Long id) {
+	public ProprietarioVO findById(@PathVariable("id")Long id) {
 		return service.findById(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Proprietario> create(@RequestBody Proprietario proprietario) {
+	public ResponseEntity<ProprietarioVO> create(@RequestBody ProprietarioVO proprietario) {
 		return new ResponseEntity<>(service.create(proprietario), HttpStatus.CREATED);
 	}
 }

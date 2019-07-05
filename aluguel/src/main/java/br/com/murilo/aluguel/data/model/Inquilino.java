@@ -129,4 +129,74 @@ public class Inquilino implements Serializable {
 	public void setFiadores(List<Fiador> fiadores) {
 		this.fiadores = fiadores;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((estadoCivil == null) ? 0 : estadoCivil.hashCode());
+		result = prime * result + ((fiadores == null) ? 0 : fiadores.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((profissao == null) ? 0 : profissao.hashCode());
+		result = prime * result + ((renda == null) ? 0 : renda.hashCode());
+		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Inquilino other = (Inquilino) obj;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (estadoCivil != other.estadoCivil)
+			return false;
+		if (fiadores == null) {
+			if (other.fiadores != null)
+				return false;
+		} else if (!fiadores.equals(other.fiadores))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nacionalidade == null) {
+			if (other.nacionalidade != null)
+				return false;
+		} else if (!nacionalidade.equals(other.nacionalidade))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (profissao == null) {
+			if (other.profissao != null)
+				return false;
+		} else if (!profissao.equals(other.profissao))
+			return false;
+		if (renda == null) {
+			if (other.renda != null)
+				return false;
+		} else if (!renda.equals(other.renda))
+			return false;
+		if (rg == null) {
+			if (other.rg != null)
+				return false;
+		} else if (!rg.equals(other.rg))
+			return false;
+		return true;
+	}
 }
