@@ -3,7 +3,6 @@ package br.com.murilo.aluguel.data.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,8 +45,8 @@ public class Casa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_endereco")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -59,9 +57,6 @@ public class Casa implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
-
-	@OneToMany(mappedBy = "casa")
-	private Set<Aluguel> alugueis;
 
 	public Casa() {
 	}
@@ -130,19 +125,10 @@ public class Casa implements Serializable {
 		this.inquilino = inquilino;
 	}
 
-	public Set<Aluguel> getAlugueis() {
-		return alugueis;
-	}
-
-	public void setAlugueis(Set<Aluguel> alugueis) {
-		this.alugueis = alugueis;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((alugueis == null) ? 0 : alugueis.hashCode());
 		result = prime * result + ((dataVencimento == null) ? 0 : dataVencimento.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -163,11 +149,6 @@ public class Casa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Casa other = (Casa) obj;
-		if (alugueis == null) {
-			if (other.alugueis != null)
-				return false;
-		} else if (!alugueis.equals(other.alugueis))
-			return false;
 		if (dataVencimento == null) {
 			if (other.dataVencimento != null)
 				return false;

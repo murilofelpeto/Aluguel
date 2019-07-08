@@ -17,7 +17,8 @@ import br.com.murilo.aluguel.data.model.Endereco;
 import br.com.murilo.aluguel.data.model.Inquilino;
 import br.com.murilo.aluguel.data.model.Proprietario;
 
-@JsonPropertyOrder({"id", "tipoCasa", "valorAluguel", "valorIPTU", "dataVencimento", "endereco", "inquilino", "alugueis"})
+@JsonPropertyOrder({ "id", "tipoCasa", "valorAluguel", "valorIPTU", "dataVencimento", "endereco", "inquilino",
+		"alugueis" })
 public class CasaVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +35,9 @@ public class CasaVO extends ResourceSupport implements Serializable {
 	private Proprietario proprietario;
 	private Inquilino inquilino;
 	private Set<Aluguel> alugueis;
+
+	public CasaVO() {
+	}
 
 	public Long getKey() {
 		return key;
