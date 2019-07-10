@@ -3,7 +3,6 @@ package br.com.murilo.aluguel.data.vo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -11,11 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
-
-import br.com.murilo.aluguel.data.model.Aluguel;
-import br.com.murilo.aluguel.data.model.Endereco;
-import br.com.murilo.aluguel.data.model.Inquilino;
-import br.com.murilo.aluguel.data.model.Proprietario;
 
 @JsonPropertyOrder({ "id", "tipoCasa", "valorAluguel", "valorIPTU", "dataVencimento", "endereco", "inquilino",
 		"alugueis" })
@@ -30,11 +24,10 @@ public class CasaVO extends ResourceSupport implements Serializable {
 	private BigDecimal valorAluguel;
 	private BigDecimal valorIPTU;
 	private Date dataVencimento;
-	private Endereco endereco;
+	private EnderecoVO endereco;
 	@JsonIgnore
-	private Proprietario proprietario;
-	private Inquilino inquilino;
-	private Set<Aluguel> alugueis;
+	private ProprietarioVO proprietario;
+	private InquilinoVO inquilino;
 
 	public CasaVO() {
 	}
@@ -79,43 +72,34 @@ public class CasaVO extends ResourceSupport implements Serializable {
 		this.dataVencimento = dataVencimento;
 	}
 
-	public Endereco getEndereco() {
+	public EnderecoVO getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(EnderecoVO endereco) {
 		this.endereco = endereco;
 	}
 
-	public Proprietario getProprietario() {
+	public ProprietarioVO getProprietario() {
 		return proprietario;
 	}
 
-	public void setProprietario(Proprietario proprietario) {
+	public void setProprietario(ProprietarioVO proprietario) {
 		this.proprietario = proprietario;
 	}
 
-	public Inquilino getInquilino() {
+	public InquilinoVO getInquilino() {
 		return inquilino;
 	}
 
-	public void setInquilino(Inquilino inquilino) {
+	public void setInquilino(InquilinoVO inquilino) {
 		this.inquilino = inquilino;
-	}
-
-	public Set<Aluguel> getAlugueis() {
-		return alugueis;
-	}
-
-	public void setAlugueis(Set<Aluguel> alugueis) {
-		this.alugueis = alugueis;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((alugueis == null) ? 0 : alugueis.hashCode());
 		result = prime * result + ((dataVencimento == null) ? 0 : dataVencimento.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((inquilino == null) ? 0 : inquilino.hashCode());
@@ -136,11 +120,6 @@ public class CasaVO extends ResourceSupport implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CasaVO other = (CasaVO) obj;
-		if (alugueis == null) {
-			if (other.alugueis != null)
-				return false;
-		} else if (!alugueis.equals(other.alugueis))
-			return false;
 		if (dataVencimento == null) {
 			if (other.dataVencimento != null)
 				return false;

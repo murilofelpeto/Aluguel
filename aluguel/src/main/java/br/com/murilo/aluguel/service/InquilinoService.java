@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.murilo.aluguel.converter.DozerConverter;
+import br.com.murilo.aluguel.data.model.Fiador;
 import br.com.murilo.aluguel.data.model.Inquilino;
 import br.com.murilo.aluguel.data.vo.InquilinoVO;
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
@@ -22,6 +23,11 @@ public class InquilinoService {
 		return DozerConverter.parseObject(inquilino, InquilinoVO.class);
 	}
 	
+	public InquilinoVO findByCpf(Long cpf) {
+		Inquilino inquilino = repository.findByCpf(cpf).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
+		return DozerConverter.parseObject(inquilino, InquilinoVO.class);
+	}
+	
 	public InquilinoVO salvarInquilino(InquilinoVO vo) {
 		Inquilino inquilino = DozerConverter.parseObject(vo, Inquilino.class);
 		return DozerConverter.parseObject(repository.save(inquilino), InquilinoVO.class);
@@ -31,7 +37,7 @@ public class InquilinoService {
 		Inquilino inquilino = repository.findById(vo.getKey()).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
 		inquilino.setCpf(vo.getCpf());
 		inquilino.setEstadoCivil(vo.getEstadoCivil());
-		inquilino.setFiadores(vo.getFiadores());
+		inquilino.setFiadores(DozerConverter.parseListObjects(vo.getFiadores(), Fiador.class));
 		inquilino.setNacionalidade(vo.getNacionalidade());
 		inquilino.setNome(vo.getNome());
 		inquilino.setProfissao(vo.getProfissao());

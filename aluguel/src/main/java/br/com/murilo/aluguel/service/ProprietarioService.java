@@ -25,7 +25,7 @@ public class ProprietarioService {
 	}
 	
 	public List<ProprietarioVO> findByName(String name) {
-		List<Proprietario> proprietarios = repository.findByNomeLike(name);
+		List<Proprietario> proprietarios = repository.findByNomeContaining(name);
 		if (proprietarios.isEmpty()) {
 			throw new ResourceNotFoundException(MESSAGE);
 		}
@@ -52,6 +52,7 @@ public class ProprietarioService {
 	}
 	
 	public void delete(Long id) {
+		//TODO Delete on cascade with Casa
 		Proprietario proprietario = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
 		repository.delete(proprietario);
 	}

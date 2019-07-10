@@ -1,55 +1,35 @@
-package br.com.murilo.aluguel.data.model;
+package br.com.murilo.aluguel.data.vo;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.hateoas.ResourceSupport;
 
-@Entity
-@Table(name = "endereco")
-public class Endereco implements Serializable {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
+@JsonPropertyOrder({ "id", "cep", "logradouro", "complemento", "bairro", "cidade", "estado", "numero" })
+public class EnderecoVO extends ResourceSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-
-	@Column(name = "cep", nullable = false, length = 8)
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	private String cep;
-
-	@Column(name = "logradouro", nullable = false, length = 255)
 	private String logradouro;
-
-	@Column(name = "complemento", nullable = true, length = 255)
 	private String complemento;
-
-	@Column(name = "bairro", nullable = false, length = 255)
 	private String bairro;
-
-	@Column(name = "cidade", nullable = false, length = 255)
 	private String cidade;
-
-	@Column(name = "estado", nullable = false, length = 2)
 	private String estado;
-
-	@Column(name = "numero", nullable = false, columnDefinition = "int(8)")
 	private Integer numero;
 
-	public Endereco() {
+	public Long getKey() {
+		return key;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getCep() {
@@ -117,7 +97,7 @@ public class Endereco implements Serializable {
 		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
 		result = prime * result + ((complemento == null) ? 0 : complemento.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		return result;
@@ -131,7 +111,7 @@ public class Endereco implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Endereco other = (Endereco) obj;
+		EnderecoVO other = (EnderecoVO) obj;
 		if (bairro == null) {
 			if (other.bairro != null)
 				return false;
@@ -157,10 +137,10 @@ public class Endereco implements Serializable {
 				return false;
 		} else if (!estado.equals(other.estado))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!key.equals(other.key))
 			return false;
 		if (logradouro == null) {
 			if (other.logradouro != null)

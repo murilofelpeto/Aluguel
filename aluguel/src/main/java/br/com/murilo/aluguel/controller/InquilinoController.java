@@ -27,13 +27,18 @@ public class InquilinoController {
 		return service.findById(id);
 	}
 
+	@GetMapping("/cpf/{cpf}")
+	public InquilinoVO findByCpf(@PathVariable(value = "cpf") Long cpf) {
+		return service.findByCpf(cpf);
+	}
+
 	@PostMapping
 	public ResponseEntity<InquilinoVO> createInquilino(@RequestBody InquilinoVO inquilino) {
 		return new ResponseEntity<>(service.salvarInquilino(inquilino), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	public InquilinoVO updateInquilino(@PathVariable(value = "id") Long id, InquilinoVO inquilino) {
+	@PutMapping
+	public InquilinoVO updateInquilino(InquilinoVO inquilino) {
 		return service.updateInquilino(inquilino);
 	}
 

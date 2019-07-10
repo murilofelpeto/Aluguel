@@ -10,5 +10,5 @@ import br.com.murilo.aluguel.data.model.Endereco;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
-	Optional<Endereco> findByCepAndLogradouroAndNumero(Integer cep, String logradouro, Integer numero);
+	Optional<Endereco> findByCepAndLogradouroAndNumero(String cep, String logradouro, Integer numero);
 }

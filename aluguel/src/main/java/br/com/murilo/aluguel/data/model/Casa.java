@@ -45,16 +45,16 @@ public class Casa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_proprietario", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Proprietario proprietario;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
 

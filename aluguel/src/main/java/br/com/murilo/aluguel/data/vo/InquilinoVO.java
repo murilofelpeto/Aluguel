@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 import br.com.murilo.aluguel.data.model.EstadoCivil;
-import br.com.murilo.aluguel.data.model.Fiador;
 
 @JsonPropertyOrder({ "id", "nome", "rg", "cpf", "estadoCivil", "nacionalidade", "profissao", "renda", "fiadores" })
 public class InquilinoVO extends ResourceSupport implements Serializable {
@@ -28,7 +27,7 @@ public class InquilinoVO extends ResourceSupport implements Serializable {
 	private String nacionalidade;
 	private String profissao;
 	private BigDecimal renda;
-	private List<Fiador> fiadores;
+	private List<FiadorVO> fiadores;
 
 	public InquilinoVO() {
 	}
@@ -97,11 +96,11 @@ public class InquilinoVO extends ResourceSupport implements Serializable {
 		this.renda = renda;
 	}
 
-	public List<Fiador> getFiadores() {
+	public List<FiadorVO> getFiadores() {
 		return fiadores;
 	}
 
-	public void setFiadores(List<Fiador> fiadores) {
+	public void setFiadores(List<FiadorVO> fiadores) {
 		this.fiadores = fiadores;
 	}
 

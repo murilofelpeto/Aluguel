@@ -32,7 +32,7 @@ public class CasaController {
 	}
 	
 	@GetMapping("/casas/cep/{cep}")
-	public CasaVO findByCep(@PathVariable(value = "cep")Integer cep) {
+	public CasaVO findByCep(@PathVariable(value = "cep")String cep) {
 		return service.findByCEP(cep);
 	}
 	

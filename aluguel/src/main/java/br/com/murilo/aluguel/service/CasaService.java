@@ -12,6 +12,10 @@ import br.com.murilo.aluguel.data.model.Endereco;
 import br.com.murilo.aluguel.data.model.Inquilino;
 import br.com.murilo.aluguel.data.model.Proprietario;
 import br.com.murilo.aluguel.data.vo.CasaVO;
+import br.com.murilo.aluguel.data.vo.EnderecoVO;
+import br.com.murilo.aluguel.data.vo.InquilinoVO;
+import br.com.murilo.aluguel.data.vo.ProprietarioVO;
+import br.com.murilo.aluguel.exception.ExistingResourceException;
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
 import br.com.murilo.aluguel.repository.CasaRepository;
 import br.com.murilo.aluguel.repository.EnderecoRepository;
@@ -26,13 +30,13 @@ public class CasaService {
 
 	@Autowired
 	private ProprietarioRepository proprietarioRepository;
-	
+
 	@Autowired
 	private InquilinoRepository inquilinoRepository;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	private final String PROPRIETARIO_MESSAGE = "Proprietario não encontrado!";
 	private final String CASA_MESSAGE = "Casa não encontrada!";
 
@@ -41,52 +45,82 @@ public class CasaService {
 		List<Casa> casas = casaRepository.findByProprietarioId(id);
 		return DozerConverter.parseListObjects(casas, CasaVO.class);
 	}
-	
-	public CasaVO findByCEP(Integer cep) {
+
+	public CasaVO findByCEP(String cep) {
 		Optional<Casa> casa = casaRepository.findByEnderecoCep(cep);
-		if(casa.isPresent()) {
+		if (casa.isPresent()) {
 			return DozerConverter.parseObject(casa.get(), CasaVO.class);
 		}
 		throw new ResourceNotFoundException(CASA_MESSAGE);
 	}
-	
+
 	public CasaVO salvarCasa(Long proprietarioID, CasaVO vo) {
-		Proprietario proprietario = proprietarioRepository.findById(proprietarioID).orElseThrow(() -> new ResourceNotFoundException(PROPRIETARIO_MESSAGE));
-		vo.setProprietario(proprietario);
-		
-		if(inquilinoRepository.findByCpf(vo.getInquilino().getCpf()).isPresent()) {
-			Inquilino existingInquilino = inquilinoRepository.findByCpf(vo.getInquilino().getCpf()).orElseThrow(() -> new ResourceNotFoundException("Inquilino não encontrado!"));
-			vo.setInquilino(existingInquilino);
+		Proprietario proprietario = proprietarioRepository.findById(proprietarioID)
+				.orElseThrow(() -> new ResourceNotFoundException(PROPRIETARIO_MESSAGE));
+		vo.setProprietario(DozerConverter.parseObject(proprietario, ProprietarioVO.class));
+
+		if(vo.getInquilino() != null) {
+			InquilinoVO existingInquilino = findExistingInquilino(vo.getInquilino());
+			if (existingInquilino != null) {
+				vo.setInquilino(existingInquilino);
+			}			
 		}
-		
-		//TODO tratar o CEP com inicio 0. Jackson ta quebrando com leading 0
-		//TODO tratar os erros para quando endereco ou inquilino estiverem cadastrados em outro lugar
-		Integer cep = vo.getEndereco().getCep();
-		String logradouro = vo.getEndereco().getLogradouro();
-		Integer numero = vo.getEndereco().getNumero();
-		if(enderecoRepository.findByCepAndLogradouroAndNumero(cep, logradouro, numero).isPresent()) {
-			Endereco existingEndereco = enderecoRepository.findByCepAndLogradouroAndNumero(cep, logradouro, numero).get();
+
+		EnderecoVO existingEndereco = findingExistingEndereco(vo.getEndereco());
+		if (existingEndereco != null) {
 			vo.setEndereco(existingEndereco);
 		}
-		
+
 		Casa newCasa = casaRepository.save(DozerConverter.parseObject(vo, Casa.class));
 		return DozerConverter.parseObject(newCasa, CasaVO.class);
 	}
-	
+
 	public CasaVO atualizarCasa(Long proprietarioID, CasaVO vo) {
-		Proprietario proprietario = proprietarioRepository.findById(proprietarioID).orElseThrow(() -> new ResourceNotFoundException(PROPRIETARIO_MESSAGE));
+		Proprietario proprietario = proprietarioRepository.findById(proprietarioID)
+				.orElseThrow(() -> new ResourceNotFoundException(PROPRIETARIO_MESSAGE));
 		Casa casa = casaRepository.findById(vo.getKey()).orElseThrow(() -> new ResourceNotFoundException(CASA_MESSAGE));
 		casa.setDataVencimento(vo.getDataVencimento());
-		casa.setEndereco(vo.getEndereco());
-		casa.setInquilino(vo.getInquilino());
+		casa.setEndereco(DozerConverter.parseObject(vo.getEndereco(), Endereco.class));
+		casa.setInquilino(DozerConverter.parseObject(vo.getInquilino(), Inquilino.class));
 		casa.setProprietario(proprietario);
 		casa.setValorAluguel(vo.getValorAluguel());
 		casa.setValorIPTU(vo.getValorIPTU());
 		return DozerConverter.parseObject(casaRepository.save(casa), CasaVO.class);
 	}
-	
+
 	public void deleteCasa(Long id) {
 		Casa casa = casaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CASA_MESSAGE));
 		casaRepository.delete(casa);
+	}
+
+	private InquilinoVO findExistingInquilino(InquilinoVO inquilino) {
+		if (inquilinoRepository.findByCpf(inquilino.getCpf()).isPresent()) {
+			Inquilino existingInquilino = inquilinoRepository.findByCpf(inquilino.getCpf())
+					.orElseThrow(() -> new ResourceNotFoundException("Inquilino não encontrado!"));
+
+			if (!casaRepository.findByInquilinoId(existingInquilino.getId()).isPresent()) {
+				return DozerConverter.parseObject(existingInquilino, InquilinoVO.class);
+			} else {
+				throw new ExistingResourceException("Inquilino já cadastrado em outra casa");
+			}
+		}
+		return null;
+	}
+
+	private EnderecoVO findingExistingEndereco(EnderecoVO endereco) {
+		String cep = endereco.getCep();
+		String logradouro = endereco.getLogradouro();
+		Integer numero = endereco.getNumero();
+		if (enderecoRepository.findByCepAndLogradouroAndNumero(cep, logradouro, numero).isPresent()) {
+			Endereco existingEndereco = enderecoRepository.findByCepAndLogradouroAndNumero(cep, logradouro, numero)
+					.orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado!"));
+
+			if (!casaRepository.findByEnderecoCep(cep).isPresent()) {
+				return DozerConverter.parseObject(existingEndereco, EnderecoVO.class);
+			} else {
+				throw new ExistingResourceException("Já existe uma casa registrada com esse endereço");
+			}
+		}
+		return null;
 	}
 }

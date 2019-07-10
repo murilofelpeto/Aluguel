@@ -16,9 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 @Entity
 @Table(name = "aluguel")
 public class Aluguel implements Serializable {
@@ -42,7 +39,6 @@ public class Aluguel implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_casa", nullable = true)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Casa casa;	
 
 	public Aluguel() {

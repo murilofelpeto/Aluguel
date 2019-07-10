@@ -10,5 +10,5 @@ import br.com.murilo.aluguel.data.model.Proprietario;
 @Repository
 public interface ProprietarioRepository extends JpaRepository<Proprietario, Long> {
 
-	List<Proprietario> findByNomeLike(String name);
+	List<Proprietario> findByNomeContaining(String name);
 }
