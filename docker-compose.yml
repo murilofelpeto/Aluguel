@@ -17,12 +17,11 @@ services:
       - "3306:3306"
     networks:
       - aluguel-network
-  aluguel-api:
+  api:
     image: murilofelpeto/aluguel-api
-    restart: always
     build: 
-      context: ./aluguel
-      dockerfile: ../containers/App/Dockerfile
+      context: .
+      dockerfile: containers/App/Dockerfile
     working_dir: /aluguel
     environment:
       TZ: America/Sao_Paulo
