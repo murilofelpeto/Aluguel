@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.murilo.aluguel.converter.DozerConverter;
-import br.com.murilo.aluguel.data.model.Proprietario;
-import br.com.murilo.aluguel.data.vo.ProprietarioVO;
+import br.com.murilo.aluguel.dto.response.ProprietarioVO;
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
+import br.com.murilo.aluguel.model.Proprietario;
 import br.com.murilo.aluguel.repository.ProprietarioRepository;
 
 @Service

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.murilo.aluguel.data.vo.InquilinoVO;
+import br.com.murilo.aluguel.dto.response.InquilinoVO;
 import br.com.murilo.aluguel.service.InquilinoService;
 
 @RestController

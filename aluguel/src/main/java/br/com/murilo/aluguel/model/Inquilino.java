@@ -1,43 +1,72 @@
-package br.com.murilo.aluguel.data.vo;
+package br.com.murilo.aluguel.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.hateoas.ResourceSupport;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.github.dozermapper.core.Mapping;
+import br.com.murilo.aluguel.types.EstadoCivil;
 
-import br.com.murilo.aluguel.data.model.EstadoCivil;
-
-@JsonPropertyOrder({ "id", "nome", "rg", "cpf", "estadoCivil", "nacionalidade", "profissao", "renda", "fiadores" })
-public class InquilinoVO extends ResourceSupport implements Serializable {
+@Entity
+@Table(name = "inquilino")
+public class Inquilino implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Mapping("id")
-	@JsonProperty("id")
-	private Long key;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+
+	@Column(name = "name", nullable = false, length = 180)
 	private String nome;
+
+	@Column(name = "rg", nullable = false, columnDefinition = "bigint(14)")
 	private Long rg;
+
+	@Column(name = "cpf", unique = true, nullable = false, columnDefinition = "bigint(11)")
 	private Long cpf;
+
+	@Column(name = "estado_civil")
+	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
+
+	@Column(name = "nacionalidade", nullable = false, length = 80)
 	private String nacionalidade;
+
+	@Column(name = "profissao", nullable = false, length = 100)
 	private String profissao;
+
+	@Column(name = "renda", nullable = false)
 	private BigDecimal renda;
-	private List<FiadorVO> fiadores;
 
-	public InquilinoVO() {
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "inquilino_fiador", joinColumns = { @JoinColumn(name = "id_inquilino") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_fiador") })
+	private List<Fiador> fiadores;
+
+	public Inquilino() {
 	}
 
-	public Long getKey() {
-		return key;
+	public Long getId() {
+		return id;
 	}
 
-	public void setKey(Long key) {
-		this.key = key;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -96,22 +125,22 @@ public class InquilinoVO extends ResourceSupport implements Serializable {
 		this.renda = renda;
 	}
 
-	public List<FiadorVO> getFiadores() {
+	public List<Fiador> getFiadores() {
 		return fiadores;
 	}
 
-	public void setFiadores(List<FiadorVO> fiadores) {
+	public void setFiadores(List<Fiador> fiadores) {
 		this.fiadores = fiadores;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((estadoCivil == null) ? 0 : estadoCivil.hashCode());
 		result = prime * result + ((fiadores == null) ? 0 : fiadores.hashCode());
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((profissao == null) ? 0 : profissao.hashCode());
@@ -124,11 +153,11 @@ public class InquilinoVO extends ResourceSupport implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InquilinoVO other = (InquilinoVO) obj;
+		Inquilino other = (Inquilino) obj;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -141,10 +170,10 @@ public class InquilinoVO extends ResourceSupport implements Serializable {
 				return false;
 		} else if (!fiadores.equals(other.fiadores))
 			return false;
-		if (key == null) {
-			if (other.key != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!key.equals(other.key))
+		} else if (!id.equals(other.id))
 			return false;
 		if (nacionalidade == null) {
 			if (other.nacionalidade != null)

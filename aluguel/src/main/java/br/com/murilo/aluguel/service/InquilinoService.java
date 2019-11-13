@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.murilo.aluguel.converter.DozerConverter;
-import br.com.murilo.aluguel.data.model.Fiador;
-import br.com.murilo.aluguel.data.model.Inquilino;
-import br.com.murilo.aluguel.data.vo.InquilinoVO;
+import br.com.murilo.aluguel.dto.response.InquilinoVO;
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
+import br.com.murilo.aluguel.model.Fiador;
+import br.com.murilo.aluguel.model.Inquilino;
 import br.com.murilo.aluguel.repository.InquilinoRepository;
 
 @Service

@@ -1,4 +1,4 @@
-package br.com.murilo.aluguel.data.model;
+package br.com.murilo.aluguel.model;
 
 import java.io.Serializable;
 
@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import br.com.murilo.aluguel.types.EstadoCivil;
 
 @Entity
 @Table(name = "proprietario")

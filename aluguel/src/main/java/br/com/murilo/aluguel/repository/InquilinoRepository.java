@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.murilo.aluguel.data.model.Inquilino;
+import br.com.murilo.aluguel.model.Inquilino;
 
 @Repository
 public interface InquilinoRepository extends JpaRepository<Inquilino, Long> {
