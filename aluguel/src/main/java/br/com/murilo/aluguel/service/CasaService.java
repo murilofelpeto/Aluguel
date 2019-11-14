@@ -1,7 +1,6 @@
 package br.com.murilo.aluguel.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,18 +39,12 @@ public class CasaService {
 	private final String PROPRIETARIO_MESSAGE = "Proprietario não encontrado!";
 	private final String CASA_MESSAGE = "Casa não encontrada!";
 
-	public List<CasaVO> findCasaByProprietario(Long id) {
-		proprietarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PROPRIETARIO_MESSAGE));
-		List<Casa> casas = casaRepository.findByProprietarioId(id);
-		return DozerConverter.parseListObjects(casas, CasaVO.class);
+	public List<Casa> findCasaByProprietarioName(String name) {
+		return casaRepository.findByProprietarioName(name);
 	}
 
-	public CasaVO findByCEP(String cep) {
-		Optional<Casa> casa = casaRepository.findByEnderecoCep(cep);
-		if (casa.isPresent()) {
-			return DozerConverter.parseObject(casa.get(), CasaVO.class);
-		}
-		throw new ResourceNotFoundException(CASA_MESSAGE);
+	public List<Casa> findByCEP(String cep) {
+		return casaRepository.findByEnderecoCep(cep);
 	}
 
 	public CasaVO salvarCasa(Long proprietarioID, CasaVO vo) {

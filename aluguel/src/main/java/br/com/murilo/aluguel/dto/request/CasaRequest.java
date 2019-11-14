@@ -2,7 +2,7 @@ package br.com.murilo.aluguel.dto.request;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class CasaRequest implements Serializable {
 	private String tipoCasa;
 	private BigDecimal valorAluguel;
 	private BigDecimal valorIPTU;
-	private Date dataVencimento;
+	private LocalDate dataVencimento;
 	private EnderecoRequest endereco;
 	private ProprietarioRequest proprietario;
 	private InquilinoRequest inquilino;

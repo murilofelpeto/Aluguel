@@ -22,11 +22,13 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "casa")
+@AllArgsConstructor
 public class Casa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -61,7 +63,7 @@ public class Casa implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
-
+	
 	public String getCep() {
 		return this.endereco.getCep();
 	}

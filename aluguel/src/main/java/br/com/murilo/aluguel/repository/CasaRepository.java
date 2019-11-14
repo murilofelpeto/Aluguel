@@ -11,7 +11,7 @@ import br.com.murilo.aluguel.model.Casa;
 @Repository
 public interface CasaRepository extends JpaRepository<Casa, Long> {
 
-	List<Casa> findByProprietarioId(Long id);
-	Optional<Casa> findByEnderecoCep(String cep);
+	List<Casa> findByProprietarioName(String name);
+	List<Casa> findByEnderecoCep(String cep);
 	Optional<Casa> findByInquilinoId(Long id);
 }
