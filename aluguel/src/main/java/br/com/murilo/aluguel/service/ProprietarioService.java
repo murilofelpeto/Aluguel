@@ -19,26 +19,20 @@ public class ProprietarioService {
 	
 	private final String MESSAGE = "Proprietario não encontrado!";
 	
-	public ProprietarioVO findById(Long id) {
-		Proprietario proprietario = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
-		return DozerConverter.parseObject(proprietario, ProprietarioVO.class);
+	public List<Proprietario> findAll(){
+		return repository.findAll();
 	}
 	
-	public List<ProprietarioVO> findByName(String name) {
-		List<Proprietario> proprietarios = repository.findByNomeContaining(name);
-		if (proprietarios.isEmpty()) {
-			throw new ResourceNotFoundException(MESSAGE);
-		}
-		return DozerConverter.parseListObjects(proprietarios, ProprietarioVO.class);
+	public Proprietario findById(Long id) {
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
 	}
 	
-	public List<ProprietarioVO> findAll(){
-		return DozerConverter.parseListObjects(repository.findAll(), ProprietarioVO.class);
+	public List<Proprietario> findByName(String name) {
+		return repository.findByNomeContaining(name);
 	}
 	
-	public ProprietarioVO create(ProprietarioVO vo) {
-		Proprietario proprietario = DozerConverter.parseObject(vo, Proprietario.class);
-		return DozerConverter.parseObject(repository.save(proprietario), ProprietarioVO.class);
+	public Proprietario create(Proprietario proprietario) {
+		return repository.save(proprietario);
 	}
 	
 	public ProprietarioVO update(ProprietarioVO vo) {

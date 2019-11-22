@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.murilo.aluguel.dto.request.ProprietarioRequest;
+import br.com.murilo.aluguel.dto.response.ProprietarioResponse;
 import br.com.murilo.aluguel.dto.response.ProprietarioVO;
+import br.com.murilo.aluguel.facade.ProprietarioFacade;
 import br.com.murilo.aluguel.service.ProprietarioService;
 
 @RestController
@@ -22,37 +25,39 @@ import br.com.murilo.aluguel.service.ProprietarioService;
 public class ProprietarioController {
 
 	@Autowired
-	private ProprietarioService service;
+	private ProprietarioFacade proprietarioFacade;
 
 	@GetMapping
-	public ResponseEntity<List<ProprietarioVO>> findAll() {
-		List<ProprietarioVO> proprietarios = service.findAll();
+	public ResponseEntity<List<ProprietarioResponse>> findAll() {
+		List<ProprietarioResponse> proprietarios = proprietarioFacade.findAll();
 		return (proprietarios.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
 				: new ResponseEntity<>(proprietarios, HttpStatus.OK));
 	}
 
 	@GetMapping(value = "/{id}")
-	public ProprietarioVO findById(@PathVariable(value = "id") Long id) {
-		return service.findById(id);
+	public ResponseEntity<ProprietarioResponse> findById(@PathVariable(value = "id") Long id) {
+		return new ResponseEntity<>(proprietarioFacade.findById(id), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/findByName/{name}")
-	public List<ProprietarioVO> findByName(@PathVariable(value = "name") String name) {
-		return service.findByName(name);
+	public ResponseEntity<List<ProprietarioResponse>> findByName(@PathVariable(value = "name") String name) {
+		List<ProprietarioResponse> proprietarios = proprietarioFacade.findByName(name); 
+		return (proprietarios.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<>(proprietarios, HttpStatus.OK));
 	}
 
 	@PostMapping
-	public ResponseEntity<ProprietarioVO> create(@RequestBody ProprietarioVO proprietario) {
-		return new ResponseEntity<>(service.create(proprietario), HttpStatus.CREATED);
+	public ResponseEntity<ProprietarioResponse> create(@RequestBody ProprietarioRequest proprietario) {
+		return new ResponseEntity<>(proprietarioFacade.create(proprietario), HttpStatus.CREATED);
 	}
 
-	@PutMapping
-	public ResponseEntity<ProprietarioVO> updateProprietario(@RequestBody ProprietarioVO vo) {
-		return new ResponseEntity<>(service.update(vo), HttpStatus.OK);
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ProprietarioResponse> updateProprietario(@PathVariable(value = "id") Long id, @RequestBody ProprietarioRequest proprietario) {
+		return new ResponseEntity<>(proprietarioFacade.update(id, proprietario), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public void delete(@PathVariable(value = "id")Long id) {
-		service.delete(id);
+		proprietarioFacade.delete(id);
 	}
 }
