@@ -25,4 +25,8 @@ public enum TipoDocumento {
 	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
+	
+	public static final TipoDocumento qualTipoDocumento(String valor) {
+		return byTD.get(valor);
+	}
 }

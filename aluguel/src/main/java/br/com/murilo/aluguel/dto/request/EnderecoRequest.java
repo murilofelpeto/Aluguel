@@ -9,6 +9,7 @@ public class EnderecoRequest implements Serializable {
 
 	private static final long serialVersionUID = 5346202072759950706L;
 
+	private Long id;
 	private String cep;
 	private String logradouro;
 	private String complemento;

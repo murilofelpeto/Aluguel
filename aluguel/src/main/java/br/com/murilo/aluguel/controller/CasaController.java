@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.murilo.aluguel.dto.request.CasaRequest;
 import br.com.murilo.aluguel.dto.response.CasaResponse;
-import br.com.murilo.aluguel.dto.response.CasaVO;
 import br.com.murilo.aluguel.facade.CasaFacade;
 
 @RestController
@@ -30,32 +30,29 @@ public class CasaController {
 	public ResponseEntity<List<CasaResponse>> findCasasByProprietario(
 			@RequestParam(name = "name", required = true) String name) {
 		List<CasaResponse> casas = casaFacade.findCasaByProprietario(name);
-		return (casas.isEmpty() ? 
-				new ResponseEntity<>(HttpStatus.NO_CONTENT):
-				new ResponseEntity<>(casas, HttpStatus.OK));
+		return (casas.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<>(casas, HttpStatus.OK));
 	}
-	
+
 	@GetMapping("/endereco/cep")
-	public ResponseEntity<List<CasaResponse>> findByCep(
-			@RequestParam(name = "cep", required = true)String cep) {
+	public ResponseEntity<List<CasaResponse>> findByCep(@RequestParam(name = "cep", required = true) String cep) {
 		List<CasaResponse> casas = casaFacade.findCasaByCep(cep);
-		return (casas.isEmpty() ? 
-				new ResponseEntity<>(HttpStatus.NO_CONTENT):
-				new ResponseEntity<>(casas, HttpStatus.OK));
+		return (casas.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<>(casas, HttpStatus.OK));
 	}
-	
-	@PostMapping("/proprietario/{id}/casas")
-	public ResponseEntity<CasaVO> salvarCasa(@PathVariable(value = "id")Long id, @RequestBody CasaVO casa){
-		return new ResponseEntity<>(casaFacade.salvarCasa(id, casa), HttpStatus.CREATED);
+
+	@PostMapping("/casas")
+	public ResponseEntity<CasaResponse> salvarCasa(@RequestBody CasaRequest casa) {
+		return new ResponseEntity<>(casaFacade.salvarCasa(casa), HttpStatus.CREATED);
 	}
-	
-	@PutMapping("/proprietario/{id}/casas")
-	public CasaVO update(@PathVariable(value = "id")Long idProprietario, @RequestBody CasaVO casa) {
-		return casaFacade.atualizarCasa(idProprietario, casa);
+
+	@PutMapping("/casas/{id}")
+	public ResponseEntity<CasaResponse> update(@PathVariable(value = "id") Long idCasa, @RequestBody CasaRequest casa) {
+		return new ResponseEntity<>(casaFacade.atualizarCasa(idCasa, casa), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/casas/{id}")
-	public void deletarCasa(@PathVariable(value = "id")Long id) {
+	public void deletarCasa(@PathVariable(value = "id") Long id) {
 		casaFacade.deleteCasa(id);
 	}
 }

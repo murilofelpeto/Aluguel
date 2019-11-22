@@ -12,38 +12,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.murilo.aluguel.dto.response.InquilinoVO;
-import br.com.murilo.aluguel.service.InquilinoService;
+import br.com.murilo.aluguel.dto.request.InquilinoRequest;
+import br.com.murilo.aluguel.dto.response.InquilinoResponse;
+import br.com.murilo.aluguel.facade.InquilinoFacade;
 
 @RestController
 @RequestMapping("/api/v1/inquilino")
 public class InquilinoController {
 
 	@Autowired
-	private InquilinoService service;
+	private InquilinoFacade inquilinoFacade;
 
 	@GetMapping("/{id}")
-	public InquilinoVO findById(@PathVariable(value = "id") Long id) {
-		return service.findById(id);
+	public ResponseEntity<InquilinoResponse> findById(@PathVariable(value = "id") Long id) {
+		return new ResponseEntity<>(inquilinoFacade.findById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/cpf/{cpf}")
-	public InquilinoVO findByCpf(@PathVariable(value = "cpf") Long cpf) {
-		return service.findByCpf(cpf);
+	@GetMapping("/documento/{cpf}")
+	public ResponseEntity<InquilinoResponse> findByCpf(@PathVariable(value = "cpf") Long cpf) {
+		return new ResponseEntity<>(inquilinoFacade.findByCpf(cpf), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<InquilinoVO> createInquilino(@RequestBody InquilinoVO inquilino) {
-		return new ResponseEntity<>(service.salvarInquilino(inquilino), HttpStatus.CREATED);
+	public ResponseEntity<InquilinoResponse> createInquilino(@RequestBody InquilinoRequest inquilino) {
+		return new ResponseEntity<>(inquilinoFacade.salvarInquilino(inquilino), HttpStatus.CREATED);
 	}
 
-	@PutMapping
-	public InquilinoVO updateInquilino(InquilinoVO inquilino) {
-		return service.updateInquilino(inquilino);
+	@PutMapping("{id}")
+	public ResponseEntity<InquilinoResponse> updateInquilino(@PathVariable(value = "id") Long idInquilino, @RequestBody InquilinoRequest inquilino) {
+		return new ResponseEntity<>(inquilinoFacade.updateInquilino(idInquilino, inquilino), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteInquilino(@PathVariable(value = "id") Long id) {
-		service.deleteInquilino(id);
+		inquilinoFacade.deleteInquilino(id);
 	}
 }

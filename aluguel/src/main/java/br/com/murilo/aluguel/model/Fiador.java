@@ -13,11 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.com.murilo.aluguel.types.TipoDocumento;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "fiador")
+@AllArgsConstructor
 public class Fiador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,8 +44,4 @@ public class Fiador implements Serializable {
 
 	@Column(name = "renda", nullable = false)
 	private BigDecimal renda;
-	
-	public String getTipoDocumento() {
-		return this.tipoDocumento.getTipoDocumento();
-	}
 }

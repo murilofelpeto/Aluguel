@@ -26,7 +26,7 @@ public class CasaResponse implements Serializable {
 	private String nomeProprietario;
 	private String nomeInquilino;
 	private Long cpfInquilino;
-	private List<FiadorCasaResponse> fiadores;
+	private List<FiadorResponse> fiadores;
 	
 	public CasaResponse(Casa casa) {
 		this.id = casa.getId();
@@ -40,12 +40,12 @@ public class CasaResponse implements Serializable {
 		this.nomeProprietario = casa.getNomeProprietario();
 		this.nomeInquilino = casa.getNomeInquilino();
 		this.cpfInquilino = casa.getCpfInquilino();
-		this.fiadores = getFiadoresCasaResponse(casa.getFiadores());
+		this.fiadores = getFiadoresResponse(casa.getFiadores());
 	}
 
-	private List<FiadorCasaResponse> getFiadoresCasaResponse(List<Fiador> fiadores) {
+	private List<FiadorResponse> getFiadoresResponse(List<Fiador> fiadores) {
 		return fiadores.stream()
-				.map(fiador -> new FiadorCasaResponse(fiador))
+				.map(fiador -> new FiadorResponse(fiador))
 				.collect(Collectors.toList());
 	}
 }

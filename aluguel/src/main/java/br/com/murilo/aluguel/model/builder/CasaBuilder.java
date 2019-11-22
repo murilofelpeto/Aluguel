@@ -7,9 +7,10 @@ import br.com.murilo.aluguel.model.Casa;
 import br.com.murilo.aluguel.model.Endereco;
 import br.com.murilo.aluguel.model.Inquilino;
 import br.com.murilo.aluguel.model.Proprietario;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class CasaBuilder {
-
 	
 	private Long id;
 	private String tipoCasa;
@@ -19,8 +20,6 @@ public class CasaBuilder {
 	private Endereco endereco;
 	private Proprietario proprietario;
 	private Inquilino inquilino;
-
-	public CasaBuilder() {}
 
 	public CasaBuilder comID(Long id) {
 		this.id = id;

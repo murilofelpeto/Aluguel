@@ -20,12 +20,15 @@ public enum EstadoCivil {
 		}
 	}
 
-	
 	EstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
 	
 	public String getEstadoCivil() {
 		return estadoCivil;
+	}
+	
+	public static final EstadoCivil qualEstadoCivil(String valor) {
+		return byEC.get(valor);
 	}
 }

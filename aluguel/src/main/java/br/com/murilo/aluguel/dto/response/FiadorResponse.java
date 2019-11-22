@@ -6,7 +6,7 @@ import br.com.murilo.aluguel.model.Fiador;
 import lombok.Getter;
 
 @Getter
-public class FiadorCasaResponse implements Serializable {
+public class FiadorResponse implements Serializable {
 
 	private static final long serialVersionUID = -5221225316948879356L;
 	
@@ -14,9 +14,9 @@ public class FiadorCasaResponse implements Serializable {
 	private String tipoDocumento;
 	private Long documento;
 	
-	public FiadorCasaResponse(Fiador fiador) {
+	public FiadorResponse(Fiador fiador) {
 		this.nome = fiador.getNome();
-		this.tipoDocumento = fiador.getTipoDocumento();
+		this.tipoDocumento = fiador.getTipoDocumento().getTipoDocumento();
 		this.documento = fiador.getDocumento();
 	}
 
