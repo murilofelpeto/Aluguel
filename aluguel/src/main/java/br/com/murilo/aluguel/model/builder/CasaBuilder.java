@@ -2,11 +2,13 @@ package br.com.murilo.aluguel.model.builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 import br.com.murilo.aluguel.model.Casa;
 import br.com.murilo.aluguel.model.Endereco;
 import br.com.murilo.aluguel.model.Inquilino;
 import br.com.murilo.aluguel.model.Proprietario;
+import br.com.murilo.aluguel.utils.DateConverter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class CasaBuilder {
 	private String tipoCasa;
 	private BigDecimal valorAluguel;
 	private BigDecimal valorIPTU;
-	private LocalDate dataVencimento;
+	private Date dataVencimento;
 	private Endereco endereco;
 	private Proprietario proprietario;
 	private Inquilino inquilino;
@@ -42,7 +44,7 @@ public class CasaBuilder {
 	}
 	
 	public CasaBuilder quandoVenceAluguel(LocalDate dataVencimento) {
-		this.dataVencimento = dataVencimento;
+		this.dataVencimento = DateConverter.convert(dataVencimento);
 		return this;
 	}
 	

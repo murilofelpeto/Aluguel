@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.murilo.aluguel.dto.request.ProprietarioRequest;
 import br.com.murilo.aluguel.dto.response.ProprietarioResponse;
-import br.com.murilo.aluguel.dto.response.ProprietarioVO;
 import br.com.murilo.aluguel.facade.ProprietarioFacade;
-import br.com.murilo.aluguel.service.ProprietarioService;
 
 @RestController
 @RequestMapping("/api/v1/proprietario")

@@ -11,11 +11,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "endereco")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;

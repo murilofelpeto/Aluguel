@@ -14,11 +14,13 @@ import javax.persistence.Table;
 import br.com.murilo.aluguel.types.EstadoCivil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "proprietario")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Proprietario implements Serializable {
 
 	private static final long serialVersionUID = 1L;

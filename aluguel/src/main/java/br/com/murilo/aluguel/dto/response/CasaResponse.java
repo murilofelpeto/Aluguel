@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import br.com.murilo.aluguel.model.Casa;
 import br.com.murilo.aluguel.model.Fiador;
+import br.com.murilo.aluguel.utils.DateConverter;
 import lombok.Getter;
 
 @Getter
@@ -33,7 +34,7 @@ public class CasaResponse implements Serializable {
 		this.tipoCasa = casa.getTipoCasa();
 		this.valorAluguel = casa.getValorAluguel();
 		this.valorIPTU = casa.getValorIPTU();
-		this.dataVencimento = casa.getDataVencimento();
+		this.dataVencimento = DateConverter.convert(casa.getDataVencimento());
 		this.cep = casa.getCep();
 		this.endereco = casa.getEnderecoCompleto();
 		this.numero = casa.getNumero();

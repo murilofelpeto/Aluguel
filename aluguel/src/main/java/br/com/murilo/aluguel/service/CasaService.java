@@ -16,9 +16,9 @@ public class CasaService {
 	private CasaRepository casaRepository;
 
 	private final String CASA_MESSAGE = "Casa não encontrada!";
-
+	
 	public List<Casa> findCasaByProprietarioName(String name) {
-		return casaRepository.findByProprietarioName(name);
+		return casaRepository.findByProprietarioNome(name);
 	}
 
 	public List<Casa> findByCEP(String cep) {

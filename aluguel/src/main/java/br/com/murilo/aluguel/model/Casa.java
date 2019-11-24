@@ -2,7 +2,7 @@ package br.com.murilo.aluguel.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,11 +24,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "casa")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Casa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,18 +51,18 @@ public class Casa implements Serializable {
 
 	@Column(name = "data_vencimento", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private LocalDate dataVencimento;
+	private Date dataVencimento;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, optional = false)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, optional = false)
 	@JoinColumn(name = "id_proprietario", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Proprietario proprietario;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
 	

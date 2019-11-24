@@ -15,11 +15,13 @@ import javax.persistence.Table;
 import br.com.murilo.aluguel.types.TipoDocumento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "fiador")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Fiador implements Serializable {
 
 	private static final long serialVersionUID = 1L;

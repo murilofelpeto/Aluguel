@@ -37,7 +37,7 @@ public class CasaFacade {
 				.collect(Collectors.toList());
 	}
 	
-	public List<CasaResponse> findCasaByCep(String cep){
+	public List<CasaResponse> findCasaByCep(String cep) {
 		return casaService.findByCEP(cep)
 				.stream()
 				.map(casa -> new CasaResponse(casa))

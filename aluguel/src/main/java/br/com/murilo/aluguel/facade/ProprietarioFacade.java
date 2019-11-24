@@ -40,6 +40,11 @@ public class ProprietarioFacade {
 		Proprietario proprietario = buildProprietario(proprietarioRequest);
 		return new ProprietarioResponse(proprietarioService.create(proprietario));
 	}
+
+	public ProprietarioResponse update(Long id, ProprietarioRequest proprietarioRequest) {
+		Proprietario proprietario = buildProprietario(proprietarioRequest);
+		return new ProprietarioResponse(proprietarioService.update(id, proprietario));
+	}
 	
 	private Proprietario buildProprietario(ProprietarioRequest proprietario) {
 		return new ProprietarioBuilder()
@@ -52,7 +57,8 @@ public class ProprietarioFacade {
 				.build();
 	}
 
-	public ProprietarioResponse update(Long id, ProprietarioRequest proprietario) {
-		return null;
+	public void delete(Long id) {
+		proprietarioService.delete(id);		
 	}
+
 }

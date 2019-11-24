@@ -25,7 +25,7 @@ public class CasaController {
 
 	@Autowired
 	private CasaFacade casaFacade;
-
+	
 	@GetMapping("/proprietario")
 	public ResponseEntity<List<CasaResponse>> findCasasByProprietario(
 			@RequestParam(name = "name", required = true) String name) {
@@ -41,17 +41,17 @@ public class CasaController {
 				: new ResponseEntity<>(casas, HttpStatus.OK));
 	}
 
-	@PostMapping("/casas")
+	@PostMapping
 	public ResponseEntity<CasaResponse> salvarCasa(@RequestBody CasaRequest casa) {
 		return new ResponseEntity<>(casaFacade.salvarCasa(casa), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/casas/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<CasaResponse> update(@PathVariable(value = "id") Long idCasa, @RequestBody CasaRequest casa) {
 		return new ResponseEntity<>(casaFacade.atualizarCasa(idCasa, casa), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/casas/{id}")
+	@DeleteMapping("/{id}")
 	public void deletarCasa(@PathVariable(value = "id") Long id) {
 		casaFacade.deleteCasa(id);
 	}

@@ -21,11 +21,13 @@ import javax.persistence.Table;
 import br.com.murilo.aluguel.types.EstadoCivil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "inquilino")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Inquilino implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -57,7 +59,7 @@ public class Inquilino implements Serializable {
 	@Column(name = "renda", nullable = false)
 	private BigDecimal renda;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "inquilino_fiador", joinColumns = { @JoinColumn(name = "id_inquilino") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_fiador") })
 	private List<Fiador> fiadores;
