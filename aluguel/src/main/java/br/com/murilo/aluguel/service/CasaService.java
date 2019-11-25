@@ -41,8 +41,9 @@ public class CasaService {
 	public void deleteCasa(Long id) {
 		if(casaExist(id)) {
 			casaRepository.deleteById(id);
+		} else {
+			throw new ResourceNotFoundException(CASA_MESSAGE);
 		}
-		throw new ResourceNotFoundException(CASA_MESSAGE);
 	}
 
 	private boolean casaExist(Long casaID) {

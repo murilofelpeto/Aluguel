@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -53,7 +54,7 @@ public class Casa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
@@ -62,7 +63,7 @@ public class Casa implements Serializable {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Proprietario proprietario;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
 	
@@ -71,8 +72,10 @@ public class Casa implements Serializable {
 	}
 
 	public String getEnderecoCompleto() {
-		String endereco = this.endereco.getLogradouro() + " - " + this.endereco.getComplemento();
-		return endereco;
+		if(StringUtils.isBlank(this.endereco.getComplemento())) {
+			return this.endereco.getLogradouro();
+		}
+		return this.endereco.getLogradouro() + " - " + this.endereco.getComplemento();
 	}
 
 	public Integer getNumero() {
