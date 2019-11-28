@@ -36,7 +36,7 @@ public class CasaResponse implements Serializable {
 		this.valorIPTU = casa.getValorIPTU();
 		this.dataVencimento = DateConverter.convert(casa.getDataVencimento());
 		this.cep = casa.getCep();
-		this.endereco = casa.getEnderecoCompleto();
+		this.endereco = casa.geNomeDaRua();
 		this.numero = casa.getNumero();
 		this.nomeProprietario = casa.getNomeProprietario();
 		this.nomeInquilino = casa.getNomeInquilino();

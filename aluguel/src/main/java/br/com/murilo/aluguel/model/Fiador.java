@@ -2,14 +2,17 @@ package br.com.murilo.aluguel.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import br.com.murilo.aluguel.types.TipoDocumento;
@@ -46,4 +49,17 @@ public class Fiador implements Serializable {
 
 	@Column(name = "renda", nullable = false)
 	private BigDecimal renda;
+	
+	@ManyToMany(mappedBy = "fiadores", fetch = FetchType.EAGER)
+	private List<Inquilino> inquilinos;
+	
+	public void addInquilino(Inquilino inquilino) {
+		this.inquilinos.add(inquilino);
+		inquilino.getFiadores().add(this);
+	}
+	
+	public void removeInquilino(Inquilino inquilino) {
+		this.inquilinos.remove(inquilino);
+		inquilino.getFiadores().remove(this);
+	}
 }

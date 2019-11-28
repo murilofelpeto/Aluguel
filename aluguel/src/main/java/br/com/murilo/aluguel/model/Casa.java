@@ -20,8 +20,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -58,9 +56,8 @@ public class Casa implements Serializable {
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "id_proprietario", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Proprietario proprietario;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -71,7 +68,7 @@ public class Casa implements Serializable {
 		return this.endereco.getCep();
 	}
 
-	public String getEnderecoCompleto() {
+	public String geNomeDaRua() {
 		if(StringUtils.isBlank(this.endereco.getComplemento())) {
 			return this.endereco.getLogradouro();
 		}
@@ -96,5 +93,12 @@ public class Casa implements Serializable {
 
 	public List<Fiador> getFiadores() {
 		return this.getInquilino().getFiadores();
+	}
+
+	public String getEnderecoCompleto() {
+		if(StringUtils.isBlank(this.endereco.getComplemento())) {
+			return this.endereco.getLogradouro() + ", " + this.endereco.getNumero().toString();
+		}
+		return this.endereco.getLogradouro() + ", " + this.endereco.getNumero().toString() + " - " + this.endereco.getComplemento();
 	}
 }

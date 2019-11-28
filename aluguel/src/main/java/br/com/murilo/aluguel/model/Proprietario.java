@@ -1,14 +1,22 @@
 package br.com.murilo.aluguel.model;
 
+import static javax.persistence.CascadeType.DETACH;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.murilo.aluguel.types.EstadoCivil;
@@ -45,4 +53,18 @@ public class Proprietario implements Serializable {
 
 	@Column(name = "nacionalidade", nullable = false, length = 80)
 	private String nacionalidade;
+	
+	@OneToMany(mappedBy = "proprietario", cascade = {PERSIST, MERGE, DETACH, REFRESH}, fetch = FetchType.LAZY)
+	private List<Casa> casas;
+	
+	//TODO métodos para update de proprietario
+	public void addCasa(Casa casa) {
+		this.casas.add(casa);
+		casa.setProprietario(this);
+	}
+	
+	public void removeCasa(Casa casa) {
+		this.casas.remove(casa);
+		casa.setProprietario(null);
+	}
 }

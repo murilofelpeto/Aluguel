@@ -1,11 +1,13 @@
 package br.com.murilo.aluguel.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.murilo.aluguel.exception.ResourceNotFoundException;
+import br.com.murilo.aluguel.model.Casa;
 import br.com.murilo.aluguel.model.Proprietario;
 import br.com.murilo.aluguel.repository.ProprietarioRepository;
 
@@ -35,14 +37,21 @@ public class ProprietarioService {
 	
 	public Proprietario update(Long id, Proprietario proprietario) {
 		if(proprietarioExist(id)) {
-			proprietario.setId(id);
-			return proprietarioRepository.save(proprietario);
+			Proprietario update = this.findById(id);
+			update.setId(id);
+			List<Casa> casas = update.getCasas()
+					.stream()
+					.distinct()
+					.filter(proprietario.getCasas()::contains)
+					.collect(Collectors.toList());
+			
+			casas.forEach(casa -> update.addCasa(casa));		
+			return proprietarioRepository.save(update);
 		}
 		throw new ResourceNotFoundException(MESSAGE);
 	}
 
 	public void delete(Long id) {
-		//TODO Delete on cascade with Casa
 		Proprietario proprietario = proprietarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(MESSAGE));
 		proprietarioRepository.delete(proprietario);
 	}

@@ -1,8 +1,10 @@
 package br.com.murilo.aluguel.model.builder;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import br.com.murilo.aluguel.model.Fiador;
+import br.com.murilo.aluguel.model.Inquilino;
 import br.com.murilo.aluguel.types.TipoDocumento;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +17,7 @@ public class FiadorBuilder {
 	private TipoDocumento tipoDocumento;
 	private Long documento;
 	private BigDecimal renda;
+	private List<Inquilino> inquilinos;
 	
 	public FiadorBuilder comID(Long id) {
 		this.id = id;
@@ -46,7 +49,12 @@ public class FiadorBuilder {
 		return this;
 	}
 	
+	public FiadorBuilder quaisInquilinos(List<Inquilino> inquilinos) {
+		this.inquilinos = inquilinos;
+		return this;
+	}
+	
 	public Fiador build() {
-		return new Fiador(id, nome, rg, tipoDocumento, documento, renda);
+		return new Fiador(id, nome, rg, tipoDocumento, documento, renda, inquilinos);
 	}
 }

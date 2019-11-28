@@ -15,5 +15,4 @@ public class ProprietarioRequest implements Serializable {
 	private Long cpf;
 	private String estadoCivil;
 	private String nacionalidade;
-
 }

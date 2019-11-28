@@ -52,10 +52,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+ 
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+
 		<!-- DATABASE -->
 		<!-- HATEOAS -->
 		<dependency>
@@ -103,12 +105,13 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<!-- Executar o flyway sem executar o springboot -->
+ 
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
 					<url>jdbc:mysql://localhost:3306/aluguel?useTimezone=true&amp;serverTimezone=UTC&amp;useSSL=false</url>
-					<user>murilofelpeto</user>
+					<user>root</user>
 					<password>Murilo18</password>
 				</configuration>
 				<dependencies>
@@ -125,7 +128,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-
+ 
 		</plugins>
 	</build>
 </project>

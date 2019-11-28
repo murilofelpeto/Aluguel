@@ -46,6 +46,10 @@ public class ProprietarioFacade {
 		return new ProprietarioResponse(proprietarioService.update(id, proprietario));
 	}
 	
+	public void delete(Long id) {
+		proprietarioService.delete(id);		
+	}
+	
 	private Proprietario buildProprietario(ProprietarioRequest proprietario) {
 		return new ProprietarioBuilder()
 				.comID(proprietario.getId())
@@ -56,9 +60,4 @@ public class ProprietarioFacade {
 				.qualNacionalidade(proprietario.getNacionalidade())
 				.build();
 	}
-
-	public void delete(Long id) {
-		proprietarioService.delete(id);		
-	}
-
 }

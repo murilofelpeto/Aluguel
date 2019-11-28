@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,12 +58,27 @@ public class Inquilino implements Serializable {
 	@Column(name = "renda", nullable = false)
 	private BigDecimal renda;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "inquilino_fiador", joinColumns = { @JoinColumn(name = "id_inquilino") }, inverseJoinColumns = {
-			@JoinColumn(name = "id_fiador") })
+	@ManyToMany(cascade = {
+			CascadeType.PERSIST,
+			CascadeType.DETACH,
+			CascadeType.REFRESH
+			})
+	@JoinTable(name = "inquilino_fiador", 
+	joinColumns = {@JoinColumn(name = "id_inquilino")}, 
+	inverseJoinColumns = {@JoinColumn(name = "id_fiador")})
 	private List<Fiador> fiadores;
 	
 	public String getEstadoCivil() {
 		return this.estadoCivil.getEstadoCivil();
+	}
+	
+	public void addFiador(Fiador fiador) {
+		this.fiadores.add(fiador);
+		fiador.getInquilinos().add(this);
+	}
+	
+	public void removeFiador(Fiador fiador) {
+		this.fiadores.remove(fiador);
+		fiador.getInquilinos().remove(this);
 	}
 }

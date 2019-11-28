@@ -1,5 +1,8 @@
 package br.com.murilo.aluguel.model.builder;
 
+import java.util.List;
+
+import br.com.murilo.aluguel.model.Casa;
 import br.com.murilo.aluguel.model.Proprietario;
 import br.com.murilo.aluguel.types.EstadoCivil;
 import lombok.NoArgsConstructor;
@@ -13,6 +16,7 @@ public class ProprietarioBuilder {
 	private Long cpf;
 	private EstadoCivil estadoCivil;
 	private String nacionalidade;
+	private List<Casa> casas;
 	
 	public ProprietarioBuilder comID(Long id) {
 		this.id = id;
@@ -44,7 +48,12 @@ public class ProprietarioBuilder {
 		return this;
 	}
 	
+	public ProprietarioBuilder quaisCasas(List<Casa> casas) {
+		this.casas = casas;
+		return this;
+	}
+	
 	public Proprietario build() {
-		return new Proprietario(id, nome, rg, cpf, estadoCivil, nacionalidade);
+		return new Proprietario(id, nome, rg, cpf, estadoCivil, nacionalidade, casas);
 	}
 }
