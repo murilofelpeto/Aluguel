@@ -54,35 +54,17 @@ public class CasaFacade {
 	
 	public CasaResponse salvarCasa(CasaRequest casaRequest) {
 		Casa casa = buildCasa(casaRequest);
+		
 		if(casa.getProprietario().getId() != null) {
 			casa.setProprietario(proprietarioService.findById(casa.getProprietario().getId()));
 		}
 		
 		casa.getInquilino().setFiadores(addFiadores(casa.getFiadores()));
-		
 		return new CasaResponse(casaService.salvarCasa(casa));
 		
 	}
 
-	private List<Fiador> addFiadores(List<Fiador> fiadores) {
-		List<Fiador> fiadoresComID = fiadores.stream()
-				.filter(fiador -> fiador.getId() != null)
-				.collect(Collectors.toList());
-		
-		List<Fiador> fiadoresSemID = fiadores.stream()
-				.filter(fiador -> fiador.getId() == null)
-				.collect(Collectors.toList());
-		
-		List<Fiador> updatedFiadores = fiadoresComID.stream()
-				.map(fiador -> fiadorService.findByID(fiador.getId()))
-				.collect(Collectors.toList());
-		
-		updatedFiadores.addAll(fiadoresSemID.stream()
-				.map(fiador -> fiadorService.save(fiador))
-				.collect(Collectors.toList()));
-		
-		return updatedFiadores;
-	}
+
 
 	public CasaResponse atualizarCasa(Long casaID, CasaRequest casaRequest) {
 		Casa casa = buildCasa(casaRequest);
@@ -156,5 +138,25 @@ public class CasaFacade {
 				.qualLogradouro(endereco.getLogradouro())
 				.qualNumero(endereco.getNumero())
 				.build();
+	}
+	
+	private List<Fiador> addFiadores(List<Fiador> fiadores) {
+		List<Fiador> fiadoresComID = fiadores.stream()
+				.filter(fiador -> fiador.getId() != null)
+				.collect(Collectors.toList());
+		
+		List<Fiador> fiadoresSemID = fiadores.stream()
+				.filter(fiador -> fiador.getId() == null)
+				.collect(Collectors.toList());
+		
+		List<Fiador> updatedFiadores = fiadoresComID.stream()
+				.map(fiador -> fiadorService.findByID(fiador.getId()))
+				.collect(Collectors.toList());
+		
+		updatedFiadores.addAll(fiadoresSemID.stream()
+				.map(fiador -> fiadorService.save(fiador))
+				.collect(Collectors.toList()));
+		
+		return updatedFiadores;
 	}
 }
