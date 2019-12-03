@@ -19,8 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.commons.lang3.StringUtils;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -63,21 +61,6 @@ public class Casa implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_inquilino", nullable = true)
 	private Inquilino inquilino;
-	
-	public String getCep() {
-		return this.endereco.getCep();
-	}
-
-	public String geNomeDaRua() {
-		if(StringUtils.isBlank(this.endereco.getComplemento())) {
-			return this.endereco.getLogradouro();
-		}
-		return this.endereco.getLogradouro() + " - " + this.endereco.getComplemento();
-	}
-
-	public Integer getNumero() {
-		return this.endereco.getNumero();
-	}
 
 	public String getNomeProprietario() {
 		return this.proprietario.getNome();
@@ -93,12 +76,5 @@ public class Casa implements Serializable {
 
 	public List<Fiador> getFiadores() {
 		return this.getInquilino().getFiadores();
-	}
-
-	public String getEnderecoCompleto() {
-		if(StringUtils.isBlank(this.endereco.getComplemento())) {
-			return this.endereco.getLogradouro() + ", " + this.endereco.getNumero().toString();
-		}
-		return this.endereco.getLogradouro() + ", " + this.endereco.getNumero().toString() + " - " + this.endereco.getComplemento();
 	}
 }

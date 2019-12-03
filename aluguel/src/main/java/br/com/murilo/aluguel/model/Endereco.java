@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,4 +49,11 @@ public class Endereco implements Serializable {
 
 	@Column(name = "numero", nullable = false, columnDefinition = "int(8)")
 	private Integer numero;
+	
+	public String getEnderecoCompleto() {
+		if(StringUtils.isBlank(this.complemento)) {
+			return this.logradouro + ", " + this.numero.toString();
+		}
+		return this.logradouro + ", " + this.numero.toString() + " - " + this.complemento;
+	}
 }

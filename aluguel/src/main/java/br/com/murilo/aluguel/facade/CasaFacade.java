@@ -64,8 +64,6 @@ public class CasaFacade {
 		
 	}
 
-
-
 	public CasaResponse atualizarCasa(Long casaID, CasaRequest casaRequest) {
 		Casa casa = buildCasa(casaRequest);
 		return new CasaResponse(casaService.atualizarCasa(casaID, casa));

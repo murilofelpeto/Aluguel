@@ -10,11 +10,13 @@ public class FiadorResponse implements Serializable {
 
 	private static final long serialVersionUID = -5221225316948879356L;
 	
+	private Long id;
 	private String nome;
 	private String tipoDocumento;
 	private Long documento;
 	
 	public FiadorResponse(Fiador fiador) {
+		this.id = fiador.getId();
 		this.nome = fiador.getNome();
 		this.tipoDocumento = fiador.getTipoDocumento().getTipoDocumento();
 		this.documento = fiador.getDocumento();

@@ -15,9 +15,9 @@ public class CasaProprietarioResponse {
 	private BigDecimal valorAluguel;
 	private BigDecimal valorIPTU;
 	private LocalDate dataVencimento;
-	private String enderecoCompleto;
 	private String nomeInquilino;
 	private Long cpfInquilino;
+	private EnderecoResponse endereco;
 	
 	public CasaProprietarioResponse(Casa casa) {
 		this.id = casa.getId();
@@ -25,7 +25,7 @@ public class CasaProprietarioResponse {
 		this.valorAluguel = casa.getValorAluguel();
 		this.valorIPTU = casa.getValorIPTU();
 		this.dataVencimento = DateConverter.convert(casa.getDataVencimento());
-		this.enderecoCompleto = casa.getEnderecoCompleto();
+		this.endereco = new EnderecoResponse(casa.getEndereco());
 		this.nomeInquilino = casa.getNomeInquilino();
 		this.cpfInquilino = casa.getCpfInquilino();
 	}

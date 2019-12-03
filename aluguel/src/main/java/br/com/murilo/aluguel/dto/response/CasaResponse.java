@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.murilo.aluguel.model.Casa;
+import br.com.murilo.aluguel.model.Endereco;
 import br.com.murilo.aluguel.model.Fiador;
 import br.com.murilo.aluguel.utils.DateConverter;
 import lombok.Getter;
@@ -21,12 +22,10 @@ public class CasaResponse implements Serializable {
 	private BigDecimal valorAluguel;
 	private BigDecimal valorIPTU;
 	private LocalDate dataVencimento;
-	private String cep;
-	private String endereco;
-	private Integer numero;
 	private String nomeProprietario;
 	private String nomeInquilino;
 	private Long cpfInquilino;
+	private EnderecoResponse endereco;
 	private List<FiadorResponse> fiadores;
 	
 	public CasaResponse(Casa casa) {
@@ -35,13 +34,15 @@ public class CasaResponse implements Serializable {
 		this.valorAluguel = casa.getValorAluguel();
 		this.valorIPTU = casa.getValorIPTU();
 		this.dataVencimento = DateConverter.convert(casa.getDataVencimento());
-		this.cep = casa.getCep();
-		this.endereco = casa.geNomeDaRua();
-		this.numero = casa.getNumero();
+		this.endereco = buildEndereco(casa.getEndereco());
 		this.nomeProprietario = casa.getNomeProprietario();
 		this.nomeInquilino = casa.getNomeInquilino();
 		this.cpfInquilino = casa.getCpfInquilino();
 		this.fiadores = getFiadoresResponse(casa.getFiadores());
+	}
+
+	private EnderecoResponse buildEndereco(Endereco endereco) {
+		return new EnderecoResponse(endereco);
 	}
 
 	private List<FiadorResponse> getFiadoresResponse(List<Fiador> fiadores) {
